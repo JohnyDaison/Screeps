@@ -119,7 +119,11 @@ function getCreepParts(role, energyLimit) {
         console.log(ratio);
         var partsObj = partsArrayToObj(desired);
         for(var part in partsObj) {
-            partsObj[part] = Math.max(1, Math.floor(partsObj[part] * ratio));
+            if(part === MOVE) {
+                partsObj[part] = Math.max(1, Math.ceil(partsObj[part] * ratio));
+            } else {
+                partsObj[part] = Math.max(1, Math.floor(partsObj[part] * ratio));
+            }
         }
 
         var parts = partsObjToArray(partsObj);
@@ -255,7 +259,7 @@ function autoSpawnCreeps(spawn, role) {
             if(role.substr(0,3) == "exo") {
                 newMemory.followFlag = "Flag1";
             }
-            if(role == "attacker") {
+            if(role.includes("attacker")) {
                 var enemy = spawn.room.find(FIND_HOSTILE_CREEPS)[0];
                 if(!enemy) {
                     newMemory.followFlag = "AttackFlag";
@@ -361,8 +365,8 @@ module.exports.loop = function () {
         // adjust desired creep counts
         autoAdjustDesiredCreepCount(spawn, "builder", sites.length > 0);
         autoAdjustDesiredCreepCount(spawn, "distributor", enemyCreeps.length > 0);
-        // autoAdjustDesiredCreepCount(spawn, "attacker", enemyCreeps.length > 0, 2);
-        // autoAdjustDesiredCreepCount(spawn, "rangedattacker", enemyCreeps.length > 0, 2);
+        autoAdjustDesiredCreepCount(spawn, "attacker", enemyCreeps.length > 0, 2);
+        autoAdjustDesiredCreepCount(spawn, "rangedattacker", enemyCreeps.length > 0, 2);
 
         // auto spawn
         for(var role of Memory.spawnPriority) {
