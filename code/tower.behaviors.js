@@ -34,11 +34,11 @@ function towerBehavior(tower) {
     });
 
 
-    /*if (healer) {
+    if (healer) {
         tower.attack(healer);
     } else if (target) {
         tower.attack(target);
-    } else */ if (tower.store[RESOURCE_ENERGY] > tower.store.getCapacity(RESOURCE_ENERGY) * 0.6) {
+    } else if (tower.store[RESOURCE_ENERGY] > tower.store.getCapacity(RESOURCE_ENERGY) * 0.6) {
         var repairStructure;
 
         if (!repairStructure) {
@@ -50,7 +50,7 @@ function towerBehavior(tower) {
 
             repairStructure = repairWeakestStructure(tower, walls);
         }
-        /*
+
         if (!repairStructure) {
             var structures = tower.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -62,7 +62,6 @@ function towerBehavior(tower) {
 
             repairStructure = repairWeakestStructure(tower, structures);
         }
-        */
 
         if (!repairStructure) {
             var walls = tower.room.find(FIND_STRUCTURES, {
